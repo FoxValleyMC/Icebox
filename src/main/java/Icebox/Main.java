@@ -2,7 +2,6 @@ package Icebox;
 
 import Icebox.Events.*;
 import cn.nukkit.Player;
-import cn.nukkit.command.CommandMap;
 import cn.nukkit.inventory.PlayerInventory;
 import cn.nukkit.item.Item;
 import cn.nukkit.plugin.PluginBase;
@@ -57,11 +56,13 @@ public class Main extends PluginBase {
     public void restoreInventory(Player player) {
         player.getInventory().clearAll();
         Map<String, Object> query = DatabaseHandler.query(player.getUniqueId().toString(), "uuid");
+        Map<Integer, Item> inventoryContents = new HashMap<>();
         List<String> stringList = (List<String>) query.get("inventory");
         for (String string : stringList) {
             String[] itemData = string.split(":");
-            Item item = new Item(Integer.parseInt(itemData[1]), Integer.parseInt(itemData[2]), Integer.parseInt(itemData[3]));
-            player.getInventory().setItem(Integer.parseInt(itemData[0]), item);
+            Item item = Item.get(Integer.parseInt(itemData[1]), Integer.parseInt(itemData[2]), Integer.parseInt(itemData[3]));
+            inventoryContents.put(Integer.parseInt(itemData[0]), item);
         }
+        player.getInventory().setContents(inventoryContents);
     }
 }
