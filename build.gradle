@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'Icebox'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven {
+        url "http://repo.nukkitx.com/main/"
+    }
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    implementation "cn.nukkit:nukkit:1.0-SNAPSHOT"
+    implementation 'com.github.TimelessMC:NukkitDB:e8b0f9f365e7c0bcef56b5efa1296322ac790abf'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "Icebox.Main"
+    }
+}
