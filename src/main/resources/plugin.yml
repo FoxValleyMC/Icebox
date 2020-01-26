@@ -1,7 +1,7 @@
 name: Icebox
 author: iAtomPlaza
 api: 1.0.9
-version: 1.0.1
+version: 1.0.2
 main: Icebox.Main
 depend:
   - NukkitDB

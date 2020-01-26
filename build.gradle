@@ -3,11 +3,12 @@ plugins {
 }
 
 group 'Icebox'
-version '1.0.1'
+version '1.0.2'
 
 sourceCompatibility = 1.8
 
 repositories {
+    mavenCentral()
     maven {
         url "http://repo.nukkitx.com/main/"
     }
@@ -16,13 +17,22 @@ repositories {
     }
 }
 
+configurations {
+    loadDependency
+}
+
 dependencies {
     implementation "cn.nukkit:nukkit:1.0-SNAPSHOT"
     implementation 'com.github.TimelessMC:NukkitDB:e8b0f9f365e7c0bcef56b5efa1296322ac790abf'
+    loadDependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+    configurations.compile.extendsFrom(configurations.loadDependency)
 }
 
 jar {
     manifest {
         attributes "Main-Class": "Icebox.Main"
+    }
+    from {
+        configurations.loadDependency.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
