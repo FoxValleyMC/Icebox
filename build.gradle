@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'Icebox'
-version '1.0.2'
+version '2.0.2'
 
 sourceCompatibility = 1.8
 
@@ -23,7 +23,7 @@ configurations {
 
 dependencies {
     implementation "cn.nukkit:nukkit:1.0-SNAPSHOT"
-    implementation 'com.github.TimelessMC:NukkitDB:e8b0f9f365e7c0bcef56b5efa1296322ac790abf'
+    implementation 'com.github.TimelessMC:NukkitDB:86616cfab9'
     loadDependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
     configurations.compile.extendsFrom(configurations.loadDependency)
 }

@@ -4,10 +4,6 @@ import Icebox.Events.*;
 import cn.nukkit.Player;
 import cn.nukkit.inventory.PlayerInventory;
 import cn.nukkit.item.Item;
-import cn.nukkit.item.enchantment.Enchantment;
-import cn.nukkit.nbt.tag.CompoundTag;
-import cn.nukkit.nbt.tag.ListTag;
-import cn.nukkit.nbt.tag.Tag;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Binary;
 import org.apache.commons.lang3.StringUtils;
@@ -26,16 +22,8 @@ public class Main extends PluginBase {
     public void onEnable() {
         saveDefaultConfig();
 
-        try {
-            new NukkitDB.Main();
-        } catch (NoClassDefFoundError error) {
-            getLogger().warning("Please download and install plugin 'NukkitDB': https://nukkitx.com/resources/nukkitdb.364/");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        if (getConfig().getString("database").isEmpty() || getConfig().getString("collection").isEmpty()) {
-            getLogger().warning("Please edit your config!");
+        if (!getConfig().getBoolean("use-MongoDB") || getConfig().getString("collection").isEmpty()) {
+            getLogger().error("Please edit config");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
