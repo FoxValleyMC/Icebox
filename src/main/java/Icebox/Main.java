@@ -1,6 +1,7 @@
 package Icebox;
 
 import Icebox.Events.*;
+import NukkitDB.Provider.MongoDB;
 import cn.nukkit.Player;
 import cn.nukkit.inventory.PlayerInventory;
 import cn.nukkit.item.Item;
@@ -36,6 +37,8 @@ public class Main extends PluginBase {
     }
 
     public void saveInventory(Player player) {
+        String collection = getConfig().getString("collection");
+        String uuid = player.getUniqueId().toString();
         PlayerInventory inventory = player.getInventory();
         Map<Integer, Item> contents = inventory.getContents();
         List<Object> itemList = new ArrayList<>();
@@ -50,11 +53,15 @@ public class Main extends PluginBase {
             String itemData = name+":"+slot+":"+id+":"+count+":"+tag;
             itemList.add(itemData);
         }
-        DatabaseHandler.update(player.getUniqueId().toString(), "inventory", itemList);
+        MongoDB.updateOne(
+                MongoDB.getCollection(collection), "uuid", uuid, "inventory", itemList
+        );
     }
 
     public void restoreInventory(Player player) {
-        Map<String, Object> query = DatabaseHandler.query(player.getUniqueId().toString(), "uuid");
+        String collection = getConfig().getString("collection");
+        String uuid = player.getUniqueId().toString();
+        Map<String, Object> query = MongoDB.getDocument(MongoDB.getCollection(collection), "uuid", uuid);
         Map<Integer, Item> inventoryContents = new HashMap<>();
         List<String> stringList = (List<String>) query.get("inventory");
         for (String string : stringList) {
